@@ -566,8 +566,8 @@
                 // Inicializa o GLTFLoader
                 const loader = new THREE.GLTFLoader();
 
-                // ** METE AQUI O URL DO TEU ARQUIVO GLB **
-                const glbPath = 'caminho/para/o/teu/modelo.glb'; // Substitua por seu URL/caminho real!
+                // ** METE AQUI O TEU FICHEIRO GLB PARA O SITE FICAR COM O MEU 3D LÁ DENTRO **
+                const glbPath = 'caminho/para/o/teu/ficheiro.glb'; // <-- SUBSTITUA ESTE CAMINHO!
                 
                 loader.load(
                     glbPath,
@@ -575,32 +575,26 @@
                     function (gltf) {
                         loadedModel = gltf.scene;
 
-                        // AJUSTAR A ESCALA: O modelo original pode ser muito grande ou pequeno. 
-                        // Ajuste estes valores conforme a necessidade (ex: loadedModel.scale.set(0.5, 0.5, 0.5);)
-                        // Para o meu teste, vou usar um valor padrão de 1.
-                        loadedModel.scale.set(1.5, 1.5, 1.5); // Aumentei a escala para ser mais visível no container 300x300.
+                        // ** AJUSTE DE ESCALA: Se o seu modelo for muito grande ou pequeno, 
+                        // ** ajuste os valores aqui (ex: loadedModel.scale.set(0.5, 0.5, 0.5);)
+                        loadedModel.scale.set(1.5, 1.5, 1.5); 
                         
                         scene.add(loadedModel);
                         console.log('Modelo GLB carregado com sucesso!');
                     },
-                    // Chamado enquanto o recurso está a carregar (opcional, mas bom para debug)
+                    // Chamado enquanto o recurso está a carregar
                     function (xhr) {
                         console.log((xhr.loaded / xhr.total * 100) + '% carregado');
                     },
                     // Chamado se houver um erro
                     function (error) {
-                        console.error('Um erro ocorreu ao carregar o modelo GLB', error);
+                        console.error('Um erro ocorreu ao carregar o modelo GLB. Usando TorusKnot como fallback.', error);
                         
                         // FALLBACK: Adicionar o TorusKnot original em caso de falha no carregamento
                         const geometry = new THREE.TorusKnotGeometry(0.7, 0.2, 100, 16);
                         const material = new THREE.MeshPhysicalMaterial({
-                            color: 0x6366f1, 
-                            metalness: 0.9,
-                            roughness: 0.1,
-                            clearcoat: 1.0,
-                            clearcoatRoughness: 0.1,
-                            emissive: 0x3b82f6,
-                            emissiveIntensity: 0.5,
+                            color: 0x6366f1, metalness: 0.9, roughness: 0.1, clearcoat: 1.0, clearcoatRoughness: 0.1,
+                            emissive: 0x3b82f6, emissiveIntensity: 0.5,
                         });
                         loadedModel = new THREE.Mesh(geometry, material);
                         scene.add(loadedModel);
@@ -627,7 +621,7 @@
                     time += 0.01;
 
                     if (loadedModel) {
-                        // Rotação (Aplica-se ao modelo carregado)
+                        // Rotação (Aplica-se ao modelo GLB carregado ou ao fallback TorusKnot)
                         loadedModel.rotation.x += 0.005;
                         loadedModel.rotation.y += 0.008;
 
