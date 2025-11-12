@@ -8,8 +8,8 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Configuração da fonte Inter (padrão de design moderno) -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
-    
-    <!-- NOTA: As dependências do Three.js estão no final do <body> -->
+    <!-- Three.js para o Objeto 3D Flutuante -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     
     <style>
         /* Estilos globais e de animação */
@@ -69,7 +69,7 @@
             transform: translateY(-2px);
         }
         
-        /* Estilo Clean para o Preloader e seus elementos */
+        /* NOVO: Estilo Clean para o Preloader e seus elementos */
         #preloader {
             background-color: #050614;
         }
@@ -96,7 +96,7 @@
             top: 0;
         }
         
-        /* Estilo do botão de entrada (limpo e translúcido) */
+        /* NOVO: Estilo do botão de entrada (limpo e translúcido) */
         .btn-enter {
             /* Fundo e borda muito subtis (translúcidos) */
             background-color: rgba(255, 255, 255, 0.05); 
@@ -143,8 +143,6 @@
 
         /* Implementação Three.js para Flutuação 3D */
         .high-tech-sphere-container {
-            /* Permite ao utilizador interagir na área do contentor */
-            touch-action: none; 
             position: relative;
             width: 300px;
             height: 300px;
@@ -161,15 +159,11 @@
             border: 1px solid rgba(59, 130, 246, 0.3);
         }
         
-        /* Estilo do Canvas Three.js - NOVO ID: #hero-3d-model */
-        #hero-3d-model {
+        /* Estilo do Canvas Three.js */
+        #floating-3d-model {
             width: 100% !important;
             height: 100% !important;
             display: block;
-            cursor: grab; /* Indica que é arrastável */
-        }
-        #hero-3d-model:active {
-            cursor: grabbing;
         }
 
         /* Feature Box Highlight (apenas para hover) */
@@ -184,27 +178,13 @@
             box-shadow: 0 0 20px rgba(99, 102, 241, 0.3); 
             transform: translateY(-4px); 
         }
-
-        /* NOVO: Estilo para a secção de Marquee */
-        .marquee-content {
-            display: inline-block;
-            animation: marquee-scroll 30s linear infinite;
-            padding-left: 100%; /* Inicia fora da vista, mas o JS duplica */
-            transform-origin: left center;
-        }
-
-        /* Animação do Marquee */
-        @keyframes marquee-scroll {
-            from { transform: translateX(0%); }
-            to { transform: translateX(-50%); } 
-        }
         
     </style>
 </head>
 
 <body>
     
-    <!-- Ecrã de Pré-Carregamento (Preloader) -->
+    <!-- NOVO: Ecrã de Pré-Carregamento (Preloader) - Foco no Luxo Minimalista -->
     <div id="preloader" class="fixed inset-0 z-[100] flex flex-col items-center justify-center transition-opacity duration-700">
         <div class="max-w-md w-full px-8 text-center">
             
@@ -225,6 +205,7 @@
             </div>
             
             <!-- Enter Button (initially hidden, fade-in controlled by JS) -->
+            <!-- Botão menor, transparente/translúcido -->
             <button id="enter-button" class="btn-enter text-base font-medium py-3 px-8 rounded-full opacity-0 mt-20" onclick="enterExperience()">
                 ENTRAR NA EXPERIÊNCIA
             </button>
@@ -233,7 +214,7 @@
     <!-- FIM DO PRELOADER -->
 
 
-    <!-- Contentor Principal do Site -->
+    <!-- NOVO: Contentor Principal do Site (Visível apenas após clicar em 'Enter') -->
     <div id="site-content">
 
         <!-- Cabeçalho Flutuante (Floating Header) -->
@@ -280,7 +261,7 @@
             
             <!-- Secção Principal (Hero) -->
             <section id="inicio" class="min-h-screen flex flex-col justify-center items-center text-center px-4 pt-16 md:pt-0">
-                <!-- Título com gradiente e estilo de destaque -->
+                <!-- Título com gradiente e estilo de destaque - Cores Azuis/Índigo -->
                 <h1 class="text-6xl md:text-8xl font-extrabold leading-tight mb-6 animate-on-scroll">
                     Design Imersivo. 
                     <span class="block text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-500">
@@ -296,33 +277,16 @@
                     Fale Connosco
                 </a>
                 
-                <!-- Contentor Interativo para o Modelo 3D -->
+                <!-- Placeholder Visual 3D/AR (simulação de um elemento flutuante) -->
                 <div class="w-full max-w-2xl h-64 md:h-96 rounded-3xl mx-auto flex items-center justify-center text-gray-300 text-xl font-bold border-4 border-white/10 animate-on-scroll hero-visual-bg" style="transition-delay: 0.6s;">
-                    <!-- Container Three.js (ID ÚNICO) -->
-                    <div class="high-tech-sphere-container">
-                        <!-- Canvas Three.js é onde o modelo é renderizado -->
-                        <canvas id="hero-3d-model"></canvas>
-                    </div>
+                    [Placeholder Visual - Demonstração 3D / AR]
                 </div>
-                <p class="text-sm text-gray-500 mt-4 animate-on-scroll" style="transition-delay: 0.8s;">
-                    Arraste (Mouse ou Touch) para Rodar o Modelo
-                </p>
 
-            </section>
-
-            <!-- NOVO: Secção de Marquee (Elemento de Design Moderno) -->
-            <section id="marquee-section" class="py-8 border-y border-white/10 overflow-hidden">
-                <div class="marquee-content whitespace-nowrap" id="marquee-content">
-                    <!-- O conteúdo será duplicado pelo JavaScript para o efeito de loop -->
-                    <span class="text-4xl md:text-6xl font-extrabold tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-indigo-700 opacity-20 mx-10">
-                        3D MODELAGEM • REALIDADE AUMENTADA • UX/UI • WEBGL • INOVAÇÃO • 
-                    </span>
-                </div>
             </section>
 
             <!-- Secção de Serviços (Features) -->
             <section id="servicos" class="py-24 px-4 md:px-8 max-w-6xl mx-auto">
-                <h2 class="text-5xl md:text-6xl font-bold text-center mb-16 text-white/90 animate-on-scroll">
+                <h2 class="text-4xl md:text-5xl font-bold text-center mb-16 text-white/90 animate-on-scroll">
                     O Nosso Universo Imersivo
                 </h2>
                 
@@ -360,20 +324,10 @@
 
                 </div>
             </section>
-
-            <!-- NOVO: Secção de Marquee (Elemento de Design Moderno) -->
-            <section id="marquee-section" class="py-8 border-y border-white/10 overflow-hidden">
-                <div class="marquee-content whitespace-nowrap" id="marquee-content">
-                    <!-- O conteúdo será duplicado pelo JavaScript para o efeito de loop -->
-                    <span class="text-4xl md:text-6xl font-extrabold tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-indigo-700 opacity-20 mx-10">
-                        3D MODELAGEM • REALIDADE AUMENTADA • UX/UI • WEBGL • INOVAÇÃO • 
-                    </span>
-                </div>
-            </section>
-
-            <!-- Secção de Projetos/Testemunhos -->
+            
+            <!-- Secção de Projetos/Testemunhos (adaptando a secção de prova social) -->
             <section id="projetos" class="py-24 px-4 md:px-8 max-w-6xl mx-auto">
-                <h2 class="text-5xl md:text-6xl font-bold text-center mb-16 text-white/90 animate-on-scroll">
+                <h2 class="text-4xl md:text-5xl font-bold text-center mb-16 text-white/90 animate-on-scroll">
                     Casos de Sucesso Imersivos
                 </h2>
                 
@@ -409,7 +363,7 @@
             
             <!-- Secção de Credibilidade e Estatísticas (Social Proof) -->
             <section id="credibilidade" class="py-24 px-4 md:px-8 max-w-6xl mx-auto text-center">
-                <h2 class="text-5xl md:text-6xl font-bold mb-4 text-white/90 animate-on-scroll">
+                <h2 class="text-4xl md:text-5xl font-bold mb-4 text-white/90 animate-on-scroll">
                     Porquê Escolher a AXIS
                 </h2>
                 <p class="text-xl text-gray-400 max-w-3xl mx-auto mb-16 animate-on-scroll" style="transition-delay: 0.1s;">
@@ -442,9 +396,9 @@
             </section>
 
 
-            <!-- Secção do RADAR Animado (Placeholder para visualizações avançadas) -->
+            <!-- Secção do RADAR Animado (Atualizado com Visual 3D High-Tech) -->
             <section id="radar-section" class="py-32 px-4 md:px-8 max-w-6xl mx-auto text-center">
-                <h2 class="text-5xl md:text-6xl font-bold text-center mb-4 text-white/90 animate-on-scroll">
+                <h2 class="text-4xl md:text-5xl font-bold text-center mb-4 text-white/90 animate-on-scroll">
                     Visão IA & Análise Imersiva
                 </h2>
                 <p class="text-xl text-gray-400 max-w-3xl mx-auto mb-16 animate-on-scroll" style="transition-delay: 0.1s;">
@@ -453,13 +407,12 @@
 
                 <div class="flex flex-col md:flex-row items-center justify-between gap-12">
                     
-                    <!-- Visuais 3D (Esquerda) - AGORA UM PLACEHOLDER ESTILIZADO -->
+                    <!-- Visuais 3D (Esquerda) -->
                     <div class="w-full md:w-1/2 flex justify-center items-center animate-on-scroll" style="transition-delay: 0.3s;">
-                        <!-- O contentor de estilo 'high-tech-sphere-container' é usado como elemento visual, mas o canvas Three.js foi removido. -->
-                        <div class="high-tech-sphere-container flex items-center justify-center">
-                            <div class="text-white/40 text-2xl font-light tracking-widest animate-pulse">
-                                VISÃO RADAR
-                            </div>
+                        <!-- Componente Visual com o "Buraco Negro" (Base CSS) e o Objeto 3D (Canvas Three.js) -->
+                        <div class="high-tech-sphere-container">
+                            <!-- O canvas é o novo objeto 3D flutuante -->
+                            <canvas id="floating-3d-model"></canvas>
                         </div>
                     </div>
 
@@ -517,7 +470,7 @@
                     <a href="#" class="hover:text-white transition duration-200">Privacidade</a>
                 </div>
                 
-                <!-- Redes Sociais -->
+                <!-- Redes Sociais (Substituir por ícones SVG reais se necessário) -->
                 <div class="flex space-x-4 mt-6 md:mt-0">
                     <a href="#" class="hover:text-indigo-400 transition duration-200">Twitter</a>
                     <a href="#" class="hover:text-indigo-400 transition duration-200">Instagram</a>
@@ -528,160 +481,8 @@
 
     </div> <!-- FIM DO #site-content -->
 
-    <!-- DEPENDÊNCIAS DO THREE.JS - DEVE ESTAR AQUI ANTES DO SEU CÓDIGO -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r137/three.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r137/examples/js/loaders/GLTFLoader.js"></script>
-    <!-- Adicionado: Biblioteca de Controlo de Órbita para Interação do Utilizador -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r137/examples/js/controls/OrbitControls.js"></script>
-
 
     <script>
-        // Variáveis globais para o estado do Three.js e controle da animação
-        let threeJsInitialized = false;
-        let renderer, scene, camera, gltfModel; // Renomeado torusKnot para gltfModel para ser mais genérico
-        let pointLight, pointLight2; 
-        let controls; // Variável para os controlos de órbita (interação do utilizador)
-        let time = 0; 
-
-        function initThreeJs() {
-            // VERIFICAÇÃO DE SEGURANÇA PARA O THREE.JS
-            if (typeof THREE === 'undefined') {
-                console.error("ERRO CRÍTICO: THREE.js não está definido. A inicialização foi abortada.");
-                return;
-            }
-
-            if (threeJsInitialized) return;
-
-            // O contentor e o canvas são procurados uma vez
-            const container = document.querySelector('.hero-visual-bg .high-tech-sphere-container');
-            const canvas = document.getElementById('hero-3d-model'); 
-            
-            if (!container || !canvas) {
-                console.error("Não foi possível encontrar o contentor ou canvas Three.js (ID: hero-3d-model).");
-                return;
-            }
-
-            // 1. Configuração do Renderer (Renderizador)
-            renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true });
-            renderer.setSize(container.clientWidth, container.clientHeight);
-            renderer.setClearColor(0x000000, 0); 
-            
-            // 2. Configuração da Cena e da Câmara
-            camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
-            camera.position.z = 2.5;
-            scene = new THREE.Scene();
-
-            // 3. Configuração dos Orbit Controls (permite ao utilizador mover o modelo)
-            controls = new THREE.OrbitControls(camera, renderer.domElement);
-            controls.enableDamping = true; // Suavidade no movimento
-            controls.dampingFactor = 0.05;
-            controls.minDistance = 1;
-            controls.maxDistance = 10;
-            controls.enablePan = false; // Desativa o movimento horizontal/vertical indesejado
-
-
-            // =========================================================================
-            // Carregamento do Modelo GLB/GLTF
-            // =========================================================================
-
-            const loader = new THREE.GLTFLoader();
-
-            // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-            // IMPORTANTE: SUBSTITUA ESTE URL PELO LINK DIRETO DO SEU FICHEIRO GLB
-            // Se o ficheiro for local, terá que o hospedar (ex: GitHub, Dropbox público).
-            // ATENÇÃO: Use um URL que termine em .glb ou .gltf
-            const modelUrl = 'https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/master/2.0/Duck/glTF-Binary/Duck.glb';
-            // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
-            loader.load(
-                modelUrl,
-                // Função chamada quando o modelo é carregado com sucesso
-                function (gltf) {
-                    gltfModel = gltf.scene; 
-
-                    // Ajuste a escala e posição. Poderá ter que ajustar estes valores para o seu modelo.
-                    gltfModel.scale.set(1.5, 1.5, 1.5); 
-                    gltfModel.position.y = -0.3; 
-                    gltfModel.rotation.y = Math.PI * 0.5; // Começa ligeiramente virado para a frente
-
-                    scene.add(gltfModel);
-                },
-                // [Opcional] Função para relatar o progresso
-                function (xhr) {
-                    // console.log(`Modelo 3D a carregar: ${ (xhr.loaded / xhr.total * 100).toFixed(0) }%`);
-                },
-                // Função chamada se ocorrer um erro
-                function (error) {
-                    console.error('Ocorreu um erro ao carregar o modelo GLB. Foi usado um objeto de fallback.', error);
-                    
-                    // Adicionar um objeto de fallback simples (Esfera wireframe)
-                    const geometry = new THREE.SphereGeometry( 1, 32, 32 ); 
-                    const material = new THREE.MeshBasicMaterial({ color: 0x6366f1, wireframe: true });
-                    gltfModel = new THREE.Mesh( geometry, material );
-                    scene.add(gltfModel);
-                }
-            );
-
-            // 4. Luzes 
-            const ambientLight = new THREE.AmbientLight(0xffffff, 0.5); // Mais luz ambiente
-            scene.add(ambientLight);
-
-            pointLight = new THREE.PointLight(0x3b82f6, 10, 50); // Luz azul, mais intensa
-            pointLight.position.set(2, 2, 2);
-            scene.add(pointLight);
-
-            pointLight2 = new THREE.PointLight(0x6366f1, 8, 50); // Luz índigo
-            pointLight2.position.set(-2, -2, 2);
-            scene.add(pointLight2);
-            
-            // 5. Iniciar a Animação
-            animateThreeJs();
-            threeJsInitialized = true;
-        }
-
-        function animateThreeJs() {
-            requestAnimationFrame(animateThreeJs);
-            
-            time += 0.01;
-
-            // ATUALIZAÇÃO CRÍTICA: Atualizar os controlos de órbita
-            if (controls) {
-                controls.update(); 
-            }
-
-            // Animação de Flutuação (Subtil)
-            if(gltfModel) {
-                // Apenas flutuação vertical, sem rotação automática para permitir o controlo do utilizador
-                gltfModel.position.y = Math.sin(time * 0.5) * 0.1 - 0.3; 
-            }
-
-            // Movimento das luzes (efeito dinâmico)
-            if(pointLight && pointLight2) {
-                pointLight.position.x = Math.sin(time * 0.5) * 4;
-                pointLight2.position.z = Math.cos(time * 0.5) * 4;
-            }
-
-            if(renderer && scene && camera) {
-                renderer.render(scene, camera);
-            }
-        }
-        
-        // Função para garantir a responsividade do Three.js
-        function onWindowResize() {
-            const currentContainer = document.querySelector('.hero-visual-bg .high-tech-sphere-container');
-            if (currentContainer && renderer && camera) {
-                const width = currentContainer.clientWidth;
-                const height = currentContainer.clientHeight;
-                renderer.setSize(width, height);
-                camera.aspect = width / height;
-                camera.updateProjectionMatrix();
-                // Também atualizamos os controlos
-                if (controls) {
-                    controls.update(); 
-                }
-            }
-        }
-
         // Função global para ser chamada pelo botão do preloader
         function enterExperience() {
             const preloader = document.getElementById('preloader');
@@ -693,16 +494,8 @@
             // 2. Torna o conteúdo do site visível
             siteContent.style.visibility = 'visible';
             siteContent.style.opacity = '1';
-            
-            // 3. Introduzir um pequeno atraso para garantir que os scripts Three.js estão totalmente no escopo global
-            setTimeout(() => {
-                // 3a. Inicializa/Redimensiona Three.js
-                initThreeJs();
-                window.addEventListener('resize', onWindowResize); // Adiciona o listener de resize após a entrada
-                onWindowResize(); // Garante o tamanho correto imediatamente
-            }, 50); // Atraso de 50ms é geralmente suficiente para resolver problemas de temporização
 
-            // 4. Remove o preloader do DOM e restaura a rolagem
+            // 3. Remove o preloader do DOM e restaura a rolagem
             setTimeout(() => {
                 preloader.style.display = 'none';
                 document.body.style.overflowY = 'auto'; 
@@ -720,34 +513,42 @@
             let startTime = Date.now();
             let finalPercentage = 0;
 
+            // Função que simula o progresso de carregamento
             const updateProgress = () => {
                 const elapsedTime = Date.now() - startTime;
                 let progress = Math.min(100, (elapsedTime / totalDuration) * 100);
                 
+                // Arredonda para o inteiro para a percentagem
                 finalPercentage = Math.floor(progress);
 
                 progressBarFill.style.width = `${progress}%`;
-                progressPercentage.textContent = `${finalPercentage}%`; 
+                progressPercentage.textContent = `${finalPercentage}%`; // Atualiza a percentagem
 
                 if (progress < 100) {
                     requestAnimationFrame(updateProgress);
                 } else {
+                    // Chegou a 100%
                     progressBarFill.style.width = '100%'; 
                     progressPercentage.textContent = '100%'; 
                     
+                    // Mostra o botão com fade-in
                     enterButton.style.display = 'block'; 
                     setTimeout(() => {
                         enterButton.style.opacity = '1'; 
                         enterButton.style.transition = 'opacity 0.5s ease-in, transform 0.3s ease';
                         
+                        // Oculta a percentagem após 100% para manter o botão como foco
                         progressPercentage.style.opacity = '0';
                     }, 100); 
                 }
             };
 
+            // Inicia a simulação
             requestAnimationFrame(updateProgress);
 
             // --- 2. Lógica de Animação de Rolagem (Scroll-Reveal) ---
+            // Este código só é executado após o DOM carregar.
+            
             const elementsToAnimate = document.querySelectorAll('.animate-on-scroll');
             
             const observer = new IntersectionObserver((entries) => {
@@ -767,6 +568,7 @@
             });
 
             // --- 3. Lógica do Menu Mobile ---
+
             const mobileMenu = document.getElementById('mobile-menu');
             const mobileMenuButton = document.getElementById('mobile-menu-button');
             const closeMenuButton = document.getElementById('close-menu-button');
@@ -786,16 +588,93 @@
             document.querySelectorAll('#mobile-menu a').forEach(link => {
                 link.addEventListener('click', closeMobileMenu);
             });
-            
-            // --- 4. Lógica do Marquee ---
-            const marqueeContainer = document.getElementById('marquee-content');
-            const marqueeSpan = marqueeContainer.querySelector('span');
-            
-            // Duplicar o conteúdo do marquee para o efeito de loop contínuo
-            if (marqueeContainer && marqueeSpan) {
-                const content = marqueeSpan.outerHTML;
-                marqueeContainer.innerHTML = content + content;
+
+
+            // --- 4. Implementação Three.js para o Objeto 3D Flutuante ---
+            function initThreeJs() {
+                const container = document.querySelector('.high-tech-sphere-container');
+                const canvas = document.getElementById('floating-3d-model');
+                
+                if (!container || !canvas) {
+                    // Esta parte do código só é executada se o #site-content estiver visível,
+                    // mas colocamos aqui para garantir que está no escopo de DOMContentLoaded.
+                    return;
+                }
+                
+                // Certifica-se de que o renderer está configurado para o tamanho do container
+                const renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true });
+                renderer.setSize(container.clientWidth, container.clientHeight);
+                renderer.setClearColor(0x000000, 0); 
+                
+                const scene = new THREE.Scene();
+                const camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
+                camera.position.z = 2.5;
+
+                // Forma geométrica (exemplo: TorusKnot)
+                const geometry = new THREE.TorusKnotGeometry(0.7, 0.2, 100, 16);
+                
+                // Material Physical de alta tecnologia
+                const material = new THREE.MeshPhysicalMaterial({
+                    color: 0x6366f1, 
+                    metalness: 0.9,
+                    roughness: 0.1,
+                    clearcoat: 1.0,
+                    clearcoatRoughness: 0.1,
+                    emissive: 0x3b82f6,
+                    emissiveIntensity: 0.5,
+                });
+                
+                const torusKnot = new THREE.Mesh(geometry, material);
+                scene.add(torusKnot);
+
+                // Luzes
+                const ambientLight = new THREE.AmbientLight(0xffffff, 0.2);
+                scene.add(ambientLight);
+
+                const pointLight = new THREE.PointLight(0x3b82f6, 5, 50); 
+                pointLight.position.set(0, 5, 5);
+                scene.add(pointLight);
+
+                const pointLight2 = new THREE.PointLight(0x6366f1, 5, 50); 
+                pointLight2.position.set(5, -5, -5);
+                scene.add(pointLight2);
+                
+                let time = 0;
+
+                const animate = () => {
+                    requestAnimationFrame(animate);
+                    
+                    time += 0.01;
+
+                    // Rotação
+                    torusKnot.rotation.x += 0.005;
+                    torusKnot.rotation.y += 0.008;
+
+                    // Flutuação vertical (sutil)
+                    torusKnot.position.y = Math.sin(time) * 0.1; 
+                    
+                    // Movimento das luzes para efeito dinâmico
+                    pointLight.position.x = Math.sin(time * 0.5) * 4;
+                    pointLight2.position.z = Math.cos(time * 0.5) * 4;
+
+
+                    renderer.render(scene, camera);
+                };
+                
+                // Responsividade
+                window.addEventListener('resize', () => {
+                    const width = container.clientWidth;
+                    const height = container.clientHeight;
+                    renderer.setSize(width, height);
+                    camera.aspect = width / height;
+                    camera.updateProjectionMatrix();
+                });
+
+                animate();
             }
+
+            // O observador de intersecção só pode ser criado uma vez, por isso a chamada deve ser feita dentro do DOMContentLoaded
+            initThreeJs();
         });
     </script>
 </body>
